@@ -21,23 +21,21 @@ if __name__ == '__main__':
         if name not in mmp:
             if len(coordinate) == 3:
                 mmp[name] = coordinate
-                index[cnt] = ' '.join([name,str(cnt),str(mmp[name][0]),str(mmp[name][1]),str(mmp[name][2])])
+                index[cnt] = ' '.join([name,str(cnt)]+[str(mmp[name][x]) for x in range(0,3)])
             else: # elif len(coordinate) == 6:
                 mmp[name] = 'Error'
                 index[cnt] = 'Error: '+str(cnt)
 
         elif mmp[name] == 'Error':
             index[cnt] = 'Error: '+str(cnt)
-            continue
         elif len(coordinate) == 3:
             mmp[name] = 'Error'
             index[cnt] = 'Error: '+str(cnt)
         else:
-            if(mmp[name][0] == coordinate[0] and mmp[name][1] == coordinate[1] and mmp[name][2] == coordinate[2]):
-                mmp[name][0] = coordinate[0]+coordinate[3] 
-                mmp[name][1] = coordinate[1]+coordinate[4] 
-                mmp[name][2] = coordinate[2]+coordinate[5]
-                index[cnt] = ' '.join([name,str(cnt),str(mmp[name][0]),str(mmp[name][1]),str(mmp[name][2])])
+            if(all([mmp[name][i] == coordinate[i] for i in range(0,3)])):
+                for i in range(0,3):
+                    mmp[name][i] += coordinate[i+3] 
+                index[cnt] = ' '.join([name,str(cnt)]+[str(mmp[name][x]) for x in range(0,3)])
             else:
                 mmp[name] = 'Error'
                 index[cnt] = 'Error: '+str(cnt)
